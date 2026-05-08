@@ -132,7 +132,7 @@ nav.on{background:rgba(8,8,8,.94);border-color:var(--b1);backdrop-filter:blur(14
 .p:hover{background:#141414;}
 .p::before{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--teal));transition:width .45s ease;}
 .p:hover::before{width:100%;}
-.pp1{grid-column:span 8;}.pp2{grid-column:span 4;grid-row:span 2;}.pp3{grid-column:span 8;}
+.pp1{grid-column:span 12;}.pp2{grid-column:span 12;}.pp3{grid-column:span 12;}
 .pro1{grid-column:span 6;}.pro2{grid-column:span 6;}
 .ptag{font-family:'JetBrains Mono',monospace;font-size:.54rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;}
 .ptag-b{padding:.18rem .5rem;font-size:.5rem;letter-spacing:.1em;}
@@ -149,10 +149,6 @@ nav.on{background:rgba(8,8,8,.94);border-color:var(--b1);backdrop-filter:blur(14
 .sf{position:absolute;bottom:0;left:0;right:0;border-radius:1px 1px 0 0;}
 .p-gh{display:inline-flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--dim);border:1px solid var(--b1);padding:.28rem .7rem;margin-top:1.1rem;transition:color .2s,border-color .2s;width:fit-content;}
 .p-gh:hover{color:var(--amber);border-color:var(--amber);}
-.p-screenshots{display:flex;gap:6px;margin-top:1.1rem;flex-wrap:wrap;}
-.p-screenshots img{width:calc(50% - 3px);height:105px;object-fit:cover;object-position:top;border:1px solid var(--b1);display:block;filter:brightness(.85) saturate(.85);transition:filter .3s;flex-shrink:0;}
-.p-screenshots img:hover{filter:brightness(1) saturate(1);}
-.p-screenshots.four img{height:78px;}
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
@@ -218,6 +214,25 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;b
   .exp-kpis{grid-template-columns:1fr;}
   footer{flex-direction:column;text-align:center;}
 }
+
+/* LIGHTBOX */
+.p-screenshots{display:flex;flex-direction:column;gap:8px;margin-top:1.2rem;}
+.p-screenshots img{width:100%;height:auto;object-fit:contain;object-position:top;border:1px solid var(--b1);display:block;filter:brightness(.9) saturate(.9);transition:filter .28s,transform .28s,box-shadow .28s;cursor:zoom-in;border-radius:1px;}
+.p-screenshots img:hover{filter:brightness(1) saturate(1);transform:scale(1.005);box-shadow:0 0 24px rgba(240,165,0,.12);}
+.p-screenshots.two-col{flex-direction:row;flex-wrap:wrap;}
+.p-screenshots.two-col img{width:calc(50% - 4px);}
+.p-screenshots.four{flex-direction:row;flex-wrap:wrap;gap:6px;}
+.p-screenshots.four img{width:calc(50% - 3px);}
+
+#lb{display:none;position:fixed;inset:0;z-index:9995;background:rgba(0,0,0,.92);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(6px);}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;object-fit:contain;box-shadow:0 0 80px rgba(0,0,0,.8);border:1px solid var(--b2);}
+#lb-close{position:absolute;top:1.5rem;right:1.5rem;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.1em;cursor:pointer;transition:color .2s;}
+#lb-close:hover{color:var(--amber);}
+#lb-prev,#lb-next{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--dim);cursor:pointer;padding:1rem;transition:color .2s;user-select:none;}
+#lb-prev{left:1.5rem;}#lb-next{right:1.5rem;}
+#lb-prev:hover,#lb-next:hover{color:var(--amber);}
+#lb-counter{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.1em;}
 </style>
 </head>
 <body>
@@ -368,7 +383,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;b
       <div class="ptitle">AI Jobs Market Analytics Dashboard</div>
       <div class="pstack">Power BI · SQL Server · Star Schema · DAX</div>
       <div class="pbody">End-to-end analytics pipeline on 1,500+ global AI job postings across 14 countries. SQL Server star schema with 9 dimension tables and 1 fact table. Multi-page Power BI dashboard — Job Market Overview and Experience, Education &amp; Industry — with 6-slicer filter bars. DAX measures for AVG Salary ($194.89K), AI Salary Premium (10.9%), Senior Role %, LLM Role %. AI Engineering dominates at 49%; Big Tech pays 42% more than startups.</div>
-      <div class="p-screenshots">
+      <div class="p-screenshots" data-gallery="ai">
         <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/img1.png" alt="AI Jobs Dashboard - Overview" loading="lazy">
         <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/img2.png" alt="AI Jobs Dashboard - Details" loading="lazy">
       </div>
@@ -386,7 +401,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;b
       <div class="ptitle">IPL Analytics Dashboard (2008–2025)</div>
       <div class="pstack">Power BI · SQL Server · Star Schema · DAX</div>
       <div class="pbody">End-to-end analytics on ball-by-ball IPL data. SQL Server star schema for matches, deliveries, players, teams. Multi-page dashboard — Batting, Bowling, Team Performance, Summary KPIs. Top performers: V Kohli (8,157 runs), YS Chahal (265 wickets), CH Gayle (377 sixes). Chasing win %: 54%.</div>
-      <div class="p-screenshots four">
+      <div class="p-screenshots four" data-gallery="ipl">
         <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/batting_analysis.png" alt="Batting Analysis" loading="lazy">
         <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/bowling_analysis.png" alt="Bowling Analysis" loading="lazy">
         <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/team_performance.png" alt="Team Performance" loading="lazy">
@@ -396,7 +411,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;b
         <div><div class="pm-v">17</div><div class="pm-l">IPL seasons</div></div>
         <div><div class="pm-v">4</div><div class="pm-l">Dashboard pages</div></div>
       </div>
-      <a href="https://github.com/itsyuvarajm/IPL-PowerBI-Dashboard" target="_blank" class="p-gh">↗ github.com/itsyuvarajm/IPL-PowerBI-Dashboard</a>
+      <a href="https://github.com/yuvarajm-uv/IPL-PowerBI-Dashboard" target="_blank" class="p-gh">↗ github.com/yuvarajm-uv/IPL-PowerBI-Dashboard</a>
     </div>
 
     <!-- E-Commerce -->
@@ -575,6 +590,64 @@ document.querySelectorAll('.sk-fill').forEach(b=>bo.observe(b));
 function runCounter(el){const target=+el.dataset.to,suffix=el.dataset.suffix||'',dur=1800;let t0=null;function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(e*target)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
 const co=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){runCounter(e.target);co.unobserve(e.target);}});},{threshold:.2});
 document.querySelectorAll('.cnt').forEach(el=>co.observe(el));
+</script>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <span id="lb-close">✕ CLOSE</span>
+  <span id="lb-prev">←</span>
+  <img id="lb-img" src="" alt="">
+  <span id="lb-next">→</span>
+  <div id="lb-counter"></div>
+</div>
+<script>
+// Lightbox
+(function(){
+  const lb=document.getElementById('lb');
+  const lbImg=document.getElementById('lb-img');
+  const lbCounter=document.getElementById('lb-counter');
+  let imgs=[], idx=0;
+
+  function open(gallery, clickedSrc){
+    const el = document.querySelector('[data-gallery="'+gallery+'"]');
+    imgs = Array.from(el.querySelectorAll('img')).map(i=>({src:i.src,alt:i.alt}));
+    idx = imgs.findIndex(i=>i.src===clickedSrc);
+    if(idx<0) idx=0;
+    show();
+    lb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    lb.classList.remove('open');
+    document.body.style.overflow='';
+  }
+  function show(){
+    lbImg.src=imgs[idx].src;
+    lbImg.alt=imgs[idx].alt;
+    lbCounter.textContent=(idx+1)+' / '+imgs.length+'  —  '+imgs[idx].alt;
+  }
+  function prev(e){e.stopPropagation();idx=(idx-1+imgs.length)%imgs.length;show();}
+  function next(e){e.stopPropagation();idx=(idx+1)%imgs.length;show();}
+
+  document.querySelectorAll('[data-gallery] img').forEach(img=>{
+    img.style.cursor='zoom-in';
+    img.addEventListener('click',function(e){
+      e.stopPropagation();
+      open(this.closest('[data-gallery]').dataset.gallery, this.src);
+    });
+  });
+
+  document.getElementById('lb-close').addEventListener('click',close);
+  document.getElementById('lb-prev').addEventListener('click',prev);
+  document.getElementById('lb-next').addEventListener('click',next);
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') close();
+    if(e.key==='ArrowLeft') prev(e);
+    if(e.key==='ArrowRight') next(e);
+  });
+})();
 </script>
 </body>
 </html>
