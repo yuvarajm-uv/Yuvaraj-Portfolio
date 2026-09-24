@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuvaraj M — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080808; --surf:#0d0d0d; --card:#111;
+  --b1:#1c1c1c; --b2:#252525;
+  --amber:#f0a500; --amberlt:#ffbe3d; --teal:#00d4b8;
+  --txt:#ebebeb; --txt2:#c0c0c0; --dim:#888;
+  --pad:clamp(1.5rem,5vw,4rem);
+  --glass-bg:rgba(255,255,255,0.03);
+  --glass-border:rgba(255,255,255,0.07);
+  --glass-blur:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+a{text-decoration:none;color:inherit;}
+
+/* ── UTILS ── */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--amber),var(--teal));z-index:9999;pointer-events:none;}
+.cdot{position:fixed;width:8px;height:8px;background:var(--amber);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+.cring{position:fixed;width:30px;height:30px;border:1px solid rgba(240,165,0,.4);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);}
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.28;}
+#btt{position:fixed;bottom:2rem;right:2rem;z-index:200;width:38px;height:38px;border:1px solid var(--b2);background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));color:var(--dim);display:flex;align-items:center;justify-content:center;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .3s,color .2s,border-color .2s,transform .2s;}
+#btt.show{opacity:1;pointer-events:auto;}
+#btt:hover{color:var(--amber);border-color:var(--amber);transform:translateY(-3px);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.4rem var(--pad);border-bottom:1px solid transparent;transition:background .35s,border-color .35s;}
+nav.on{background:rgba(8,8,8,.85);border-color:var(--glass-border);backdrop-filter:blur(20px);}
+.logo{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--amber);}
+.logo em{font-style:italic;}
+.navlinks{display:flex;gap:2.2rem;list-style:none;}
+.navlinks a{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;position:relative;padding-bottom:2px;transition:color .2s;}
+.navlinks a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--amber);transition:width .28s;}
+.navlinks a:hover{color:var(--txt);}
+.navlinks a:hover::after{width:100%;}
+.nav-hire{font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--glass-border);color:var(--dim);padding:.45rem 1.1rem;background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));transition:all .22s;}
+.nav-hire:hover{border-color:var(--amber);color:var(--amber);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:7rem var(--pad) 5rem;}
+.badge{display:inline-flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;padding:.38rem .95rem;border:1px solid rgba(240,165,0,.28);background:rgba(240,165,0,.05);backdrop-filter:blur(8px);margin-bottom:2.5rem;opacity:0;animation:up .9s .1s cubic-bezier(.16,1,.3,1) forwards;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.65);}}
+.hname{font-family:'DM Serif Display',serif;font-size:clamp(3.8rem,8vw,8rem);line-height:.94;letter-spacing:-.02em;margin-bottom:.6rem;opacity:0;animation:up .9s .22s cubic-bezier(.16,1,.3,1) forwards;}
+.hname .l2{color:var(--amber);font-style:italic;display:block;}
+.hrole{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#aaa;letter-spacing:.08em;margin-bottom:2.5rem;opacity:0;animation:up .9s .38s cubic-bezier(.16,1,.3,1) forwards;}
+.hdesc{font-size:1.05rem;line-height:1.82;color:#c0c0c0;max-width:560px;margin-bottom:3rem;opacity:0;animation:up .9s .52s cubic-bezier(.16,1,.3,1) forwards;}
+.hdesc strong{color:var(--txt);font-weight:600;}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:up .9s .66s cubic-bezier(.16,1,.3,1) forwards;}
+.btn-a{display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:#080808;padding:.88rem 2.1rem;font-family:'Syne',sans-serif;font-weight:800;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;transition:background .2s,transform .22s,box-shadow .22s;}
+.btn-a:hover{background:var(--amberlt);transform:translateY(-3px);box-shadow:0 12px 28px rgba(240,165,0,.25);}
+.btn-b{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--glass-border);color:var(--txt2);padding:.88rem 2.1rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));transition:border-color .2s,color .2s,transform .22s;}
+.btn-b:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-3px);}
+
+/* ── BENTO METRICS ── */
+.bento-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 var(--pad) 0;position:relative;z-index:1;margin-top:-2rem;}
+.bm{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));padding:1.8rem 2rem;position:relative;overflow:hidden;transition:background .25s,border-color .25s,transform .25s;}
+.bm:hover{background:rgba(255,255,255,.055);border-color:rgba(240,165,0,.25);transform:translateY(-3px);}
+.bm::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(240,165,0,.04) 0%,transparent 60%);pointer-events:none;}
+.bm-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--amber);line-height:1;}
+.bm-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-top:.4rem;}
+
+/* ── TICKER ── */
+.ticker-w{overflow:hidden;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);padding:.8rem 0;background:#060606;position:relative;z-index:1;margin-top:3rem;}
+.ticker-t{display:flex;animation:tick 28s linear infinite;white-space:nowrap;}
+.ticker-t:hover{animation-play-state:paused;}
+.ti{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;padding:0 2rem;flex-shrink:0;display:flex;align-items:center;gap:2rem;}
+.ti::after{content:'◆';color:var(--amber);font-size:.38rem;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── SECTIONS ── */
+.sec{padding:7rem var(--pad);position:relative;z-index:1;}
+.sec.surf{background:var(--surf);}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--amber);letter-spacing:.22em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem;}
+.eyebrow::after{content:'';width:36px;height:1px;background:var(--amber);opacity:.4;}
+.sh{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,3.8vw,3.4rem);line-height:1.08;margin-bottom:.9rem;}
+.sh em{font-style:italic;color:var(--amber);}
+.ssub{font-size:.95rem;color:#c0c0c0;line-height:1.78;max-width:540px;margin-bottom:3.5rem;}
+
+/* ── BENTO SKILLS ── */
+.bento-skills{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:auto auto;gap:12px;}
+.bs{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));padding:1.8rem;position:relative;overflow:hidden;transition:background .25s,border-color .25s,transform .25s;}
+.bs:hover{background:rgba(255,255,255,.055);border-color:rgba(240,165,0,.2);transform:translateY(-4px);}
+.bs::after{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--amber);transition:width .4s ease;}
+.bs.tl::after{background:var(--teal);}
+.bs:hover::after{width:100%;}
+/* bento sizing */
+.bs:nth-child(1){grid-column:span 2;}
+.bs:nth-child(2){grid-column:span 2;}
+.bs:nth-child(3){grid-column:span 2;}
+.bs:nth-child(4){grid-column:span 2;}
+.bs:nth-child(5){grid-column:span 2;}
+.bs:nth-child(6){grid-column:span 2;}
+.bs-n{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--dim);letter-spacing:.1em;margin-bottom:.5rem;}
+.bs-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.7rem;}
+.bs-tags{display:flex;flex-wrap:wrap;gap:.25rem;}
+.bs-tag{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#999;padding:.12rem .45rem;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);}
+.bs-bar{height:2px;background:rgba(255,255,255,.06);margin-top:1rem;border-radius:1px;}
+.bs-fill{height:100%;background:var(--amber);transform-origin:left;transform:scaleX(0);transition:transform 1.3s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.bs-fill.tl{background:var(--teal);}
+
+/* ── EXPERIENCE ── */
+.exp-card{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));padding:2.5rem;position:relative;overflow:hidden;}
+.exp-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(240,165,0,.04) 0%,transparent 50%);pointer-events:none;}
+.exp-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--teal));}
+.exp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.4rem;}
+.exp-role{font-family:'DM Serif Display',serif;font-size:1.9rem;line-height:1.1;}
+.exp-badge{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--amber);border:1px solid rgba(240,165,0,.3);background:rgba(240,165,0,.06);backdrop-filter:blur(8px);padding:.28rem .75rem;letter-spacing:.1em;height:fit-content;}
+.exp-meta{display:flex;align-items:center;gap:.9rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.exp-co{font-family:'Syne',sans-serif;font-weight:600;font-size:.88rem;color:#d0d0d0;}
+.exp-sep{width:1px;height:12px;background:var(--b2);}
+.exp-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#999;letter-spacing:.07em;}
+.exp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:2rem;}
+.ekpi{background:rgba(240,165,0,.05);border:1px solid rgba(240,165,0,.12);backdrop-filter:blur(8px);padding:1rem;text-align:center;}
+.ekpi-v{font-family:'DM Serif Display',serif;font-size:1.55rem;color:var(--amber);line-height:1;}
+.ekpi-l{font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#999;letter-spacing:.08em;margin-top:.2rem;}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.8rem;}
+.exp-list li{display:grid;grid-template-columns:22px 1fr;font-size:.87rem;color:#cccccc;line-height:1.65;}
+.exp-list li::before{content:'→';color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:.68rem;padding-top:.18rem;}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;}
+.chip{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:.24rem .65rem;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);color:#999;letter-spacing:.05em;}
+
+/* ── BENTO PROJECT GRID ── */
+.bento-grid{display:grid;gap:12px;}
+/* Professional: 2 equal cols */
+.bento-grid.pro-grid{grid-template-columns:1fr 1fr;}
+/* Personal: 2-col bento — AI wide top, IPL wide middle, E-Commerce wide bottom */
+.bento-grid.per-grid{grid-template-columns:1fr 1fr;}
+.bento-grid.per-grid .pp1{grid-column:span 1;}
+.bento-grid.per-grid .pp2{grid-column:span 1;}
+.bento-grid.per-grid .pp3{grid-column:span 2;}
+
+.p{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));padding:2rem;position:relative;overflow:hidden;transition:background .25s,border-color .25s,transform .25s;display:flex;flex-direction:column;}
+.p:hover{background:rgba(255,255,255,.055);border-color:rgba(240,165,0,.18);transform:translateY(-4px);}
+.p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(240,165,0,.03) 0%,transparent 60%);pointer-events:none;}
+.p::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--teal));transition:width .45s ease;}
+.p:hover::after{width:100%;}
+
+.ptag{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.ptag-b{padding:.15rem .45rem;font-size:.48rem;letter-spacing:.1em;}
+.ptag-b.per{background:rgba(240,165,0,.08);color:var(--amber);border:1px solid rgba(240,165,0,.2);}
+.ptag-b.pro{background:rgba(0,212,184,.07);color:var(--teal);border:1px solid rgba(0,212,184,.18);}
+.ptitle{font-family:'DM Serif Display',serif;font-size:1.35rem;line-height:1.18;margin-bottom:.55rem;}
+.pstack{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--teal);letter-spacing:.08em;margin-bottom:1rem;}
+.pbody{font-size:.84rem;color:#c8c8c8;line-height:1.75;flex:1;}
+.pmets{display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap;}
+.pm-v{font-family:'DM Serif Display',serif;font-size:1.45rem;color:var(--amber);line-height:1;}
+.pm-l{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:#999;letter-spacing:.07em;margin-top:.18rem;}
+.spark{display:flex;align-items:flex-end;gap:2px;height:28px;margin-top:1.2rem;}
+.sb{flex:1;position:relative;border-radius:1px 1px 0 0;background:rgba(255,255,255,.05);}
+.sf{position:absolute;bottom:0;left:0;right:0;border-radius:1px 1px 0 0;}
+.p-gh{display:inline-flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#aaa;border:1px solid var(--glass-border);background:rgba(255,255,255,.03);backdrop-filter:blur(8px);padding:.25rem .65rem;margin-top:1rem;transition:color .2s,border-color .2s;width:fit-content;}
+.p-gh:hover{color:var(--amber);border-color:var(--amber);}
+
+/* ── SCREENSHOTS ── */
+.p-screenshots{display:flex;flex-direction:column;gap:8px;margin-top:1rem;}
+.p-screenshots img{width:100%;height:auto;object-fit:contain;object-position:top;border:1px solid var(--glass-border);display:block;filter:brightness(.88) saturate(.88);transition:filter .28s,transform .28s;cursor:zoom-in;border-radius:2px;}
+.p-screenshots img:hover{filter:brightness(1) saturate(1);transform:scale(1.005);}
+.p-screenshots.four{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.p-screenshots.four img{width:100%;}
+
+/* ── LIGHTBOX ── */
+#lb{display:none;position:fixed;inset:0;z-index:9995;background:rgba(0,0,0,.92);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(10px);}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;object-fit:contain;box-shadow:0 0 80px rgba(0,0,0,.8);border:1px solid var(--glass-border);}
+#lb-close{position:absolute;top:1.5rem;right:1.5rem;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.1em;cursor:pointer;transition:color .2s;}
+#lb-close:hover{color:var(--amber);}
+#lb-prev,#lb-next{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--dim);cursor:pointer;padding:1rem;transition:color .2s;user-select:none;}
+#lb-prev{left:1.5rem;}#lb-next{right:1.5rem;}
+#lb-prev:hover,#lb-next:hover{color:var(--amber);}
+#lb-counter{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.1em;}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.about-copy p{font-size:.97rem;line-height:1.88;color:#c8c8c8;margin-bottom:1.4rem;}
+.about-copy p strong{color:var(--txt);font-weight:600;}
+.about-copy p:last-child{margin-bottom:0;}
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:1.4rem;padding:1.4rem;background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));margin-bottom:10px;position:relative;overflow:hidden;transition:background .25s,border-color .25s;}
+.tl-item:hover{background:rgba(255,255,255,.05);border-color:rgba(240,165,0,.18);}
+.tl-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--amber);opacity:0;transition:opacity .3s;}
+.tl-item:hover::before{opacity:1;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:.42rem;flex-shrink:0;}
+.tl-dot.teal{background:var(--teal);}
+.tl-dot.grey{background:var(--b2);}
+.tl-body strong{display:block;font-size:.9rem;margin-bottom:.22rem;}
+.tl-body span{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#999;letter-spacing:.04em;}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.clinks{display:flex;flex-direction:column;gap:10px;margin-top:2rem;}
+.clink{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--glass-blur));padding:1.3rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;border-left:2px solid transparent;transition:background .22s,border-color .22s,transform .22s;}
+.clink:hover{background:rgba(255,255,255,.06);border-left-color:var(--amber);transform:translateX(5px);}
+.clink-l{display:flex;flex-direction:column;gap:.15rem;}
+.clink-type{font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#999;letter-spacing:.12em;text-transform:uppercase;}
+.clink-val{font-size:.88rem;color:var(--txt);}
+.clink-arr{color:#666;transition:color .2s,transform .2s;}
+.clink:hover .clink-arr{color:var(--amber);transform:translateX(3px);}
+.cright-head{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,3.8vw,3.8rem);line-height:1.08;margin-bottom:2rem;}
+.cright-head em{font-style:italic;color:var(--amber);}
+.cloc{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:#999;letter-spacing:.09em;line-height:1.9;border-left:2px solid rgba(255,255,255,.08);padding-left:1rem;margin-bottom:2rem;}
+.cloc strong{color:var(--txt2);font-weight:400;}
+.cbadges{display:flex;gap:.5rem;flex-wrap:wrap;}
+.cbadge{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:.28rem .75rem;border:1px solid;backdrop-filter:blur(8px);}
+.cbadge.g{border-color:#27c93f;color:#27c93f;background:rgba(39,201,63,.06);}
+.cbadge.a{border-color:var(--amber);color:var(--amber);background:rgba(240,165,0,.06);}
+
+/* ── FOOTER ── */
+footer{padding:1.75rem var(--pad);border-top:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;position:relative;z-index:1;background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.08em;}
+footer span{color:var(--amber);}
+
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .85s ease,transform .85s ease;}
+.reveal.v{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.025;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .bento-metrics{grid-template-columns:repeat(2,1fr);}
+  .bento-skills{grid-template-columns:repeat(2,1fr);}
+  .bs:nth-child(n){grid-column:span 1;}
+  .bento-grid.pro-grid{grid-template-columns:1fr;}
+  .bento-grid.per-grid{grid-template-columns:1fr;}
+  .bento-grid.per-grid .pp1,.bento-grid.per-grid .pp2,.bento-grid.per-grid .pp3{grid-column:span 1;grid-row:span 1;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:3.5rem;}
+}
+@media(max-width:640px){
+  .navlinks{gap:1.2rem;}
+  .bento-metrics{grid-template-columns:1fr 1fr;}
+  .bento-skills{grid-template-columns:1fr;}
+  .exp-kpis{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<canvas id="bgc"></canvas>
+<div class="cdot" id="cdot"></div>
+<div class="cring" id="cring"></div>
+<a href="#" id="btt" aria-label="Back to top">↑</a>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Y<em>uvaraj</em> M.</a>
+  <ul class="navlinks">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#personal-projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:yuvarajyuvi83@gmail.com" class="nav-hire">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">Available for opportunities</div>
+  <h1 class="hname">Yuvaraj<br><span class="l2">Murugan</span></h1>
+  <p class="hrole">Data Analyst &nbsp;·&nbsp; Healthcare Claims Analytics &nbsp;·&nbsp; Chennai, Tamil Nadu</p>
+  <p class="hdesc">
+    <strong>Data Analyst in healthcare claims analytics</strong>: designing star-schema Power BI models, validating <strong>10M+ claims records</strong>, and building dashboards that track claims TAT, denial rates and cost trends. Previously a Research Analyst validating large-scale financial data at <strong>98%+ accuracy</strong>.
+  </p>
+  <div class="hbtns">
+    <a href="#experience" class="btn-a">View My Work ↗</a>
+    <a href="Yuvaraj_M_Resume_DataAnalyst.pdf" target="_blank" download class="btn-b">Download Resume ↓</a>
+  </div>
+</section>
+
+<!-- BENTO METRICS -->
+<div class="bento-metrics">
+  <div class="bm"><div class="bm-num"><span class="cnt" data-to="10" data-suffix="M+">0</span></div><div class="bm-lbl">Healthcare claims records</div></div>
+  <div class="bm"><div class="bm-num"><span class="cnt" data-to="100" data-suffix="K+">0</span></div><div class="bm-lbl">Financial records / month</div></div>
+  <div class="bm"><div class="bm-num"><span class="cnt" data-to="98" data-suffix="%+">0</span></div><div class="bm-lbl">Data accuracy maintained</div></div>
+  <div class="bm"><div class="bm-num"><span class="cnt" data-to="3" data-suffix="+">0</span></div><div class="bm-lbl">Years of experience</div></div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-w">
+  <div class="ticker-t"><div class="ti">Power BI</div><div class="ti">DAX</div><div class="ti">SQL Server</div><div class="ti">Star Schema</div><div class="ti">Python</div><div class="ti">Pandas</div><div class="ti">Excel</div><div class="ti">Data Cleaning</div><div class="ti">Validation</div><div class="ti">Reconciliation</div><div class="ti">Stakeholder Reporting</div><div class="ti">Healthcare Claims</div><div class="ti">Financial Data</div><div class="ti">Power BI</div><div class="ti">DAX</div><div class="ti">SQL Server</div><div class="ti">Star Schema</div><div class="ti">Python</div><div class="ti">Pandas</div><div class="ti">Excel</div><div class="ti">Data Cleaning</div><div class="ti">Validation</div><div class="ti">Reconciliation</div><div class="ti">Stakeholder Reporting</div><div class="ti">Healthcare Claims</div><div class="ti">Financial Data</div></div>
+</div>
+
+<!-- 01 SKILLS -->
+<section class="sec" id="skills">
+  <div class="eyebrow reveal">01 — Technical Skills</div>
+  <h2 class="sh reveal d1">The tools I use to turn<br><em>data into decisions.</em></h2>
+  <p class="ssub reveal d2">Six competency areas covering reporting, Power BI, Excel, SQL, Python and data architecture.</p>
+  <div class="bento-skills reveal d3">
+    <div class="bs">
+      <div class="bs-n">// 01</div><div class="bs-name">Data Analysis &amp; Reporting</div>
+      <div class="bs-tags"><span class="bs-tag">Data Cleaning</span><span class="bs-tag">Validation</span><span class="bs-tag">Reconciliation</span><span class="bs-tag">Stakeholder Reporting</span><span class="bs-tag">Hypothesis Testing</span><span class="bs-tag">Regression Analysis</span></div>
+    </div>
+    <div class="bs">
+      <div class="bs-n">// 02</div><div class="bs-name">Power BI</div>
+      <div class="bs-tags"><span class="bs-tag">DAX</span><span class="bs-tag">Data Modeling</span><span class="bs-tag">Dashboard Development</span><span class="bs-tag">Star Schema</span></div>
+    </div>
+    <div class="bs tl">
+      <div class="bs-n">// 03</div><div class="bs-name">Excel</div>
+      <div class="bs-tags"><span class="bs-tag">Pivot Tables</span><span class="bs-tag">VLOOKUP</span><span class="bs-tag">Advanced Formulas</span><span class="bs-tag">Dashboards &amp; Trackers</span></div>
+    </div>
+    <div class="bs tl">
+      <div class="bs-n">// 04</div><div class="bs-name">SQL</div>
+      <div class="bs-tags"><span class="bs-tag">Joins</span><span class="bs-tag">Aggregations</span><span class="bs-tag">Subqueries</span><span class="bs-tag">Group By</span><span class="bs-tag">CTEs</span><span class="bs-tag">SQL Server</span></div>
+    </div>
+    <div class="bs">
+      <div class="bs-n">// 05</div><div class="bs-name">Python</div>
+      <div class="bs-tags"><span class="bs-tag">Pandas</span><span class="bs-tag">NumPy</span><span class="bs-tag">Data Cleaning</span><span class="bs-tag">EDA</span></div>
+    </div>
+    <div class="bs">
+      <div class="bs-n">// 06</div><div class="bs-name">Data Architecture</div>
+      <div class="bs-tags"><span class="bs-tag">Star Schema Design</span><span class="bs-tag">Dimensional Modeling</span><span class="bs-tag">Fact Tables</span><span class="bs-tag">Dimension Tables</span><span class="bs-tag">SQL Server</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 EXPERIENCE -->
+<section class="sec surf" id="experience">
+  <div class="eyebrow reveal">02 — Professional Experience</div>
+  <h2 class="sh reveal d1">Where the <em>real work</em> happened.</h2>
+  <p class="ssub reveal d2">Healthcare claims analytics today, built on 2+ years of large-scale financial data work.</p>
+
+  <div class="exp-card reveal d3">
+    <div class="exp-head">
+      <div class="exp-role">Data Analyst (Contract)</div>
+      <div class="exp-badge">Nov 2025 – Present</div>
+    </div>
+    <div class="exp-meta">
+      <div class="exp-co">Alfa Information Technologies</div>
+      <div class="exp-sep"></div>
+      <div class="exp-type">Project: Imobisoft · Healthcare Analytics</div>
+    </div>
+    <div class="exp-kpis">
+      <div class="ekpi"><div class="ekpi-v">10M+</div><div class="ekpi-l">Claims records validated</div></div>
+      <div class="ekpi"><div class="ekpi-v">4</div><div class="ekpi-l">Data sources integrated</div></div>
+      <div class="ekpi"><div class="ekpi-v">5</div><div class="ekpi-l">Claims KPIs tracked</div></div>
+    </div>
+    <ul class="exp-list">
+      <li>Design and optimize star-schema Power BI data models integrating claims systems, provider directories, eligibility files, and member databases.</li>
+      <li>Process and validate 10M+ healthcare claims records, ensuring data accuracy and HIPAA compliance.</li>
+      <li>Build and maintain interactive Power BI dashboards tracking Claims TAT, denial rates, readmissions, provider performance, and cost trends.</li>
+      <li>Implement SQL and Python-based data validation frameworks to detect anomalies and duplicates.</li>
+      <li>Perform hypothesis testing and regression analysis to evaluate healthcare program effectiveness.</li>
+    </ul>
+    <div class="chips">
+      <span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Star Schema</span>
+      <span class="chip">SQL</span><span class="chip">Python</span><span class="chip">Claims Analytics</span>
+      <span class="chip">HIPAA Compliance</span><span class="chip">Hypothesis Testing</span>
+    </div>
+  </div>
+
+  <div class="exp-card reveal" style="margin-top:12px;">
+    <div class="exp-head">
+      <div class="exp-role">Research Analyst</div>
+      <div class="exp-badge">Jul 2023 – Oct 2025</div>
+    </div>
+    <div class="exp-meta">
+      <div class="exp-co">Exchange Data International</div>
+      <div class="exp-sep"></div>
+      <div class="exp-type">Financial Data · Dividends &amp; Derivatives</div>
+    </div>
+    <div class="exp-kpis">
+      <div class="ekpi"><div class="ekpi-v">100K+</div><div class="ekpi-l">Records per month</div></div>
+      <div class="ekpi"><div class="ekpi-v">98%+</div><div class="ekpi-l">Accuracy maintained</div></div>
+      <div class="ekpi"><div class="ekpi-v">~30%</div><div class="ekpi-l">Reporting time saved</div></div>
+    </div>
+    <ul class="exp-list">
+      <li>Analyzed 100,000+ financial records monthly covering dividends and derivatives, applying structured methods for large-scale data handling, validation, and reporting.</li>
+      <li>Collected, cleaned, and validated data from multiple sources, maintaining 98%+ accuracy through systematic reconciliation and cross-verification.</li>
+      <li>Built Excel-based dashboards and trackers to monitor financial trends and KPIs, reducing manual reporting time by ~30%.</li>
+      <li>Delivered weekly and monthly structured reports to 5+ stakeholders, translating raw financial data into clear, decision-ready insights.</li>
+    </ul>
+    <div class="chips">
+      <span class="chip">Excel</span><span class="chip">Financial Data</span><span class="chip">Dividends</span>
+      <span class="chip">Derivatives</span><span class="chip">Data Reconciliation</span>
+      <span class="chip">KPI Dashboards</span><span class="chip">Stakeholder Reporting</span>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PERSONAL PROJECTS -->
+<section class="sec" id="personal-projects">
+  <div class="eyebrow reveal">03 — Personal Projects</div>
+  <h2 class="sh reveal d1">Built from <em>curiosity.</em></h2>
+  <p class="ssub reveal d2">Independent projects reflecting hands-on, self-driven growth in SQL, Python and Power BI.</p>
+  <div class="bento-grid per-grid reveal">
+
+    <div class="p pp1">
+      <div class="ptag">PROJECT_01 <span class="ptag-b per">Personal</span></div>
+      <div class="ptitle">India Trade Analytics Dashboard</div>
+      <div class="pstack">Power BI · SQL Server · Star Schema</div>
+      <div class="pbody">Built an end-to-end trade analytics pipeline on India's import/export data (World Bank, RBI, Ministry of Commerce), producing a 978-row master dataset across Annual, Commodity, and Partner Breakdown views. Designed a SQL Server star schema (3 fact + 3 dimension tables) and a 6-page Power BI dashboard using advanced SQL patterns, including decade-level trend views and PERSISTED computed columns. Key insights: engineering goods and petroleum lead exports; USA, China, and UAE dominate trade flows; exports grew ~3x and imports ~4x from the 2000s to 2020s.</div>
+      <div class="p-screenshots four" data-gallery="trade">
+        <img src="india_trade/img_1.png" alt="India Trade Dashboard - Page 1" loading="lazy">
+        <img src="india_trade/img_2.png" alt="India Trade Dashboard - Page 2" loading="lazy">
+        <img src="india_trade/img_3.png" alt="India Trade Dashboard - Page 3" loading="lazy">
+        <img src="india_trade/img_4.png" alt="India Trade Dashboard - Page 4" loading="lazy">
+        <img src="india_trade/img_5.png" alt="India Trade Dashboard - Page 5" loading="lazy">
+        <img src="india_trade/img_6.png" alt="India Trade Dashboard - Page 6" loading="lazy">
+      </div>
+      <div class="pmets">
+        <div><div class="pm-v">978</div><div class="pm-l">Master dataset rows</div></div>
+        <div><div class="pm-v">6</div><div class="pm-l">Dashboard pages</div></div>
+        <div><div class="pm-v">3+3</div><div class="pm-l">Fact + dimension tables</div></div>
+      </div>
+    </div>
+
+    <div class="p pp2">
+      <div class="ptag">PROJECT_02 <span class="ptag-b per">Personal</span></div>
+      <div class="ptitle">AI Jobs Market Analytics Dashboard</div>
+      <div class="pstack">Power BI · SQL Server · Star Schema · DAX</div>
+      <div class="pbody">Built an end-to-end analytics pipeline on 1,500+ global AI job postings across 14 countries, with a SQL Server star schema (9 dimension tables, 1 fact table). Developed a multi-page Power BI dashboard with DAX measures for AVG Salary ($194.89K), AI Salary Premium (10.9%), Senior Role %, and LLM Role %. Identified that AI Engineering leads hiring at 49% of postings, and that Big Tech pays 42% more than startups ($238K vs $168K).</div>
+      <div class="p-screenshots" data-gallery="ai">
+        <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/img1.png" alt="AI Jobs Dashboard - Overview" loading="lazy">
+        <img src="https://raw.githubusercontent.com/yuvarajm-uv/Yuvaraj-Portfolio/main/project%20images/img2.png" alt="AI Jobs Dashboard - Details" loading="lazy">
+      </div>
+      <div class="pmets">
+        <div><div class="pm-v">1.5K+</div><div class="pm-l">Job postings</div></div>
+        <div><div class="pm-v">14</div><div class="pm-l">Countries</div></div>
+        <div><div class="pm-v">$194.89K</div><div class="pm-l">Avg salary</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 ABOUT -->
+<section class="sec surf" id="about">
+  <div class="eyebrow reveal">04 — About</div>
+  <h2 class="sh reveal d1">The story <em>behind</em> the data.</h2>
+  <div class="about-grid">
+    <div class="about-copy">
+      <p class="reveal d2">I'm a <strong>Data Analyst based in Chennai, Tamil Nadu</strong>, working in healthcare claims analytics: star-schema Power BI models, large-scale claims validation, and dashboards for claims TAT, denial rates and cost trends.</p>
+      <p class="reveal">Before that, I spent <strong>2+ years as a Research Analyst</strong> validating and reporting on large-scale financial data across global dividend and derivatives markets.</p>
+      <p class="reveal">I work in <strong>SQL, Python and Power BI</strong> (DAX, data modeling, star schema design), with a consistent record of <strong>98%+ data accuracy</strong>.</p>
+      <p class="reveal">I'm skilled at turning complex datasets into <strong>clear, decision-ready insights</strong> and actionable reports for stakeholders at all levels.</p>
+    </div>
+    <div class="timeline reveal d2">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <strong>Data Analyst (Contract) — Alfa Information Technologies</strong>
+          <span>Nov 2025 – Present · Imobisoft · Healthcare Analytics · Power BI · SQL · Python</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot teal"></div>
+        <div class="tl-body">
+          <strong>Research Analyst — Exchange Data International</strong>
+          <span>Jul 2023 – Oct 2025 · Dividends &amp; Derivatives · Excel · 100K+ records / month</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot grey"></div>
+        <div class="tl-body">
+          <strong>B.E. Computer Science &amp; Engineering</strong>
+          <span>Ganadipathy Tulsi's Engineering College, Vellore · Anna University · 2013–2017</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CONTACT -->
+<section class="sec" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="eyebrow reveal">05 — Contact</div>
+      <h2 class="sh reveal d1">Open to<br><em>opportunities.</em></h2>
+      <p class="ssub reveal d2" style="margin-bottom:0;">If you value data accuracy, clear reporting, and decision-ready insights, reach out.</p>
+      <div class="clinks reveal d3">
+        <a href="mailto:yuvarajyuvi83@gmail.com" class="clink">
+          <div class="clink-l"><div class="clink-type">Email</div><div class="clink-val">yuvarajyuvi83@gmail.com</div></div>
+          <div class="clink-arr">→</div>
+        </a>
+        <a href="tel:+919600801760" class="clink">
+          <div class="clink-l"><div class="clink-type">Phone</div><div class="clink-val">+91 9600801760</div></div>
+          <div class="clink-arr">→</div>
+        </a>
+        <a href="https://github.com/yuvarajm-uv" target="_blank" class="clink">
+          <div class="clink-l"><div class="clink-type">GitHub</div><div class="clink-val">github.com/yuvarajm-uv</div></div>
+          <div class="clink-arr">→</div>
+        </a>
+        <a href="Yuvaraj_M_Resume_DataAnalyst.pdf" target="_blank" download class="clink">
+          <div class="clink-l"><div class="clink-type">Resume</div><div class="clink-val">Yuvaraj_M_Resume_DataAnalyst.pdf</div></div>
+          <div class="clink-arr">↓</div>
+        </a>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="cright-head">Let's build<br>something<br><em>with data.</em></div>
+      <div class="cloc">LOCATION<br><strong>Chennai, Tamil Nadu, India</strong></div>
+      <div class="cbadges">
+        <div class="cbadge g">● Open to Work</div>
+        <div class="cbadge a">Data Analyst</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Yuvaraj M · Data Analyst · Chennai, Tamil Nadu</p>
+  <p>yuvarajyuvi83@gmail.com · <span>github.com/yuvarajm-uv</span></p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <span id="lb-close">✕ CLOSE</span>
+  <span id="lb-prev">←</span>
+  <img id="lb-img" src="" alt="">
+  <span id="lb-next">→</span>
+  <div id="lb-counter"></div>
+</div>
+
+<script>
+/* Canvas particles */
+(function(){
+  const c=document.getElementById('bgc'),ctx=c.getContext('2d');
+  let W,H,pts=[];const N=48;
+  function sz(){W=c.width=innerWidth;H=c.height=innerHeight;}sz();
+  window.addEventListener('resize',sz);
+  class Pt{
+    constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.28;this.vy=(Math.random()-.5)*.28;this.r=Math.random()*1.4+.3;this.a=Math.random()*6;}
+    update(){this.x+=this.vx;this.y+=this.vy;this.a+=.003;if(this.x<0||this.x>W)this.vx*=-1;if(this.y<0||this.y>H)this.vy*=-1;}
+    draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,165,0,${.12+Math.sin(this.a)*.07})`;ctx.fill();}
+  }
+  for(let i=0;i<N;i++)pts.push(new Pt());
+  function loop(){
+    ctx.clearRect(0,0,W,H);pts.forEach(p=>p.update());
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<155){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(240,165,0,${(1-d/155)*.1})`;ctx.lineWidth=.7;ctx.stroke();}}
+    pts.forEach(p=>p.draw());requestAnimationFrame(loop);
+  }loop();
+})();
+
+/* Cursor */
+const cdot=document.getElementById('cdot'),cring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function cl(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cdot.style.left=mx+'px';cdot.style.top=my+'px';cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(cl);})();
+
+/* Nav / scroll */
+const nav=document.getElementById('nav'),btt=document.getElementById('btt'),prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-innerHeight;
+  prog.style.width=(st/dh*100)+'%';
+  nav.classList.toggle('on',st>50);
+  btt.classList.toggle('show',st>500);
+});
+
+/* Reveal */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('v'),i*55);ro.unobserve(e.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* Skill bars */
+const bo=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){setTimeout(()=>{e.target.style.transform=`scaleX(${+e.target.dataset.w/100})`;},400);bo.unobserve(e.target);}});
+},{threshold:.05,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.bs-fill').forEach(b=>bo.observe(b));
+
+/* Counters */
+function runCounter(el){const target=+el.dataset.to,suffix=el.dataset.suffix||'',dur=1800;let t0=null;function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(e*target)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+const co=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){runCounter(e.target);co.unobserve(e.target);}});},{threshold:.2});
+document.querySelectorAll('.cnt').forEach(el=>co.observe(el));
+
+/* Lightbox */
+(function(){
+  const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCounter=document.getElementById('lb-counter');
+  let imgs=[],idx=0;
+  function open(gallery,src){
+    const el=document.querySelector('[data-gallery="'+gallery+'"]');
+    imgs=Array.from(el.querySelectorAll('img')).map(i=>({src:i.src,alt:i.alt}));
+    idx=imgs.findIndex(i=>i.src===src);if(idx<0)idx=0;
+    show();lb.classList.add('open');document.body.style.overflow='hidden';
+  }
+  function close(){lb.classList.remove('open');document.body.style.overflow='';}
+  function show(){lbImg.src=imgs[idx].src;lbImg.alt=imgs[idx].alt;lbCounter.textContent=(idx+1)+' / '+imgs.length+'  —  '+imgs[idx].alt;}
+  function prev(e){e.stopPropagation();idx=(idx-1+imgs.length)%imgs.length;show();}
+  function next(e){e.stopPropagation();idx=(idx+1)%imgs.length;show();}
+  document.querySelectorAll('[data-gallery] img').forEach(img=>{
+    img.style.cursor='zoom-in';
+    img.addEventListener('click',function(e){e.stopPropagation();open(this.closest('[data-gallery]').dataset.gallery,this.src);});
+  });
+  document.getElementById('lb-close').addEventListener('click',close);
+  document.getElementById('lb-prev').addEventListener('click',prev);
+  document.getElementById('lb-next').addEventListener('click',next);
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')close();
+    if(e.key==='ArrowLeft')prev(e);
+    if(e.key==='ArrowRight')next(e);
+  });
+})();
+</script>
+</body>
+</html>
